@@ -44,11 +44,11 @@ php bin/magento cache:flush
   ### 2.1. When not installed after configure in System > tools > cache management will like below. 
 
   
-  ![Image of Magento admin config](https://github.com/magepow/magento2-infinitescroll/blob/master/media/autoflushcache.png)
+  ![Image of Magento admin config](https://github.com/magepow/magento-2-auto-flush-cache/blob/master/media/autoflushcache.png)
 
   ### 2.2. Result after install auto flush cache Extension:
    
-   ![Image of magento store front](https://github.com/magepow/magento2-infinitescroll/blob/master/media/result_frontend_1.png)
+   ![Image of magento store front](https://github.com/magepow/magento-2-auto-flush-cache/blob/master/media/ezgif.com-gif-maker.gif)
 
  ## Donation
 
