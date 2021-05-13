@@ -1,0 +1,5 @@
+<config>
+    <type name="Magento\Cms\Controller\Adminhtml\Block\Save">
+        <plugin name="auto_flush_cache_cms_block_save" type="Magepow\AutoFlushCache\Plugin\Cms\FlushCache" />
+    </type>
+</config>
