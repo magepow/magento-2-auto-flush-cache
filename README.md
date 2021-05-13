@@ -1,7 +1,3 @@
-
-[![Latest Stable Version](https://poser.pugx.org/magepow/autoflushcache/v/stable)](https://packagist.org/packages/magepow/autoflushcache)
-[![Total Downloads](https://poser.pugx.org/magepow/autoflushcache/downloads)](https://packagist.org/packages/magepow/autoflushcache)
-[![Daily Downloads](https://poser.pugx.org/magepow/autoflushcache/d/daily)](https://packagist.org/packages/magepow/autoflushcache)
 # Magento 2 Auto Flush Cache
 
 ## Magento 2 Auto Flush Cache (Magepow Auto Flush Cache extension Free)
@@ -11,6 +7,7 @@ Every time we edit any information or configuration content after saving we have
 
 [![Latest Stable Version](https://poser.pugx.org/magepow/autoflushcache/v/stable)](https://packagist.org/packages/magepow/autoflushcache)
 [![Total Downloads](https://poser.pugx.org/magepow/autoflushcache/downloads)](https://packagist.org/packages/magepow/autoflushcache)
+[![Daily Downloads](https://poser.pugx.org/magepow/autoflushcache/d/daily)](https://packagist.org/packages/magepow/autoflushcache)
 
 **See more information**:
 
