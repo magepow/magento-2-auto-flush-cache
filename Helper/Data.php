@@ -2,8 +2,8 @@
 /**
  * @Author: nguyen
  * @Date:   2020-02-12 14:01:01
- * @Last Modified by:   nguyen
- * @Last Modified time: 2021-05-13 14:21:15
+ * @Last Modified by:   Alex Dong
+ * @Last Modified time: 2021-05-17 10:51:42
  */
 
 namespace Magepow\AutoFlushCache\Helper;
@@ -66,6 +66,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
     public function flushCache($types=[])
     {
+        if(!$this->getConfigModule('general/enabled')) return;
         if(empty($types)){
             $types  = $this->getConfigModule('general/type');
             $types = explode(',', $types);
