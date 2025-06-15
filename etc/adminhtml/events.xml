@@ -4,16 +4,20 @@
         <observer name="auto_flush_cache_system_config_save" 
             instance="Magepow\AutoFlushCache\Observer\FlushCache"/>
     </event>
+    <event name="admin_system_config_changed_section_design">
+        <observer name="auto_flush_cache_changed_section_design" 
+            instance="Magepow\AutoFlushCache\Observer\FlushCache"/>
+    </event>
     <event name="cms_page_prepare_save">
         <observer name="auto_flush_cache_cms_page_prepare_save" 
             instance="Magepow\AutoFlushCache\Observer\FlushCache"/>
     </event>
     <event name="controller_action_catalog_product_save_entity_after">
-        <observer name="auto_flush_product_save_entity_after" 
+        <observer name="auto_flush_cache_product_save_entity_after" 
             instance="Magepow\AutoFlushCache\Observer\FlushCache"/>
     </event>
     <event name="catalog_category_prepare_save">
-        <observer name="auto_flush_category_prepare_save" 
+        <observer name="auto_flush_cache_category_prepare_save" 
             instance="Magepow\AutoFlushCache\Observer\FlushCache"/>
     </event>
 </config> 
