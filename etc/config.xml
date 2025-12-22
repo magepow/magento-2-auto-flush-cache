@@ -4,8 +4,19 @@
         <magepow_autoflushcache>
             <general>
                 <enabled>1</enabled>
-                <type>config,layout,block_html,collections,full_page</type>
+                <use_tag_invalidation>1</use_tag_invalidation>
+                <type>config,layout,block_html</type>
             </general>
+            <events>
+                <!-- Enable only essential events by default for better performance -->
+                <flush_on_config_save>1</flush_on_config_save>
+                <flush_on_design_change>1</flush_on_design_change>
+                <flush_on_cms_page_save>1</flush_on_cms_page_save>
+                <flush_on_cms_block_save>1</flush_on_cms_block_save>
+                <!-- Disabled by default due to performance impact -->
+                <flush_on_product_save>0</flush_on_product_save>
+                <flush_on_category_save>0</flush_on_category_save>
+            </events>
         </magepow_autoflushcache>
     </default>
 </config>
