@@ -22,20 +22,27 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $cacheTypeList;
 
     /**
-     * @var \Magento\Framework\App\Cache\Frontend\Pool
+     * @var \Magento\Framework\App\Cache\Manager
      */
-    protected $cacheFrontendPool;
+    protected $cacheManager;
+
+    /**
+     * @var \Magento\Framework\App\CacheInterface
+     */
+    protected $cache;
 
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
         \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList,
-        \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool
+        \Magento\Framework\App\Cache\Manager $cacheManager,
+        \Magento\Framework\App\CacheInterface $cache
     )
     {
         parent::__construct($context);
 
         $this->cacheTypeList = $cacheTypeList;
-        $this->cacheFrontendPool = $cacheFrontendPool;
+        $this->cacheManager = $cacheManager;
+        $this->cache = $cache;
         $this->configModule = $this->getConfig(strtolower($this->_getModuleName()));
     }
 
@@ -64,19 +71,108 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         return $value;
     }
 
-    public function flushCache($types=[])
+    /**
+     * Flush specific cache types intelligently
+     * Only invalidates the specified cache types without full backend clean
+     *
+     * @param array $types Cache types to flush
+     * @return void
+     */
+    public function flushCache($types = [])
     {
-        if(!$this->getConfigModule('general/enabled')) return;
-        if(empty($types)){
-            $types  = $this->getConfigModule('general/type');
+        if (!$this->getConfigModule('general/enabled')) {
+            return;
+        }
+
+        if (empty($types)) {
+            $types = $this->getConfigModule('general/type');
+            if (!$types) {
+                return;
+            }
             $types = explode(',', $types);
         }
+
+        // Clean only specified cache types - uses Magento's intelligent invalidation
         foreach ($types as $type) {
-            $this->cacheTypeList->cleanType($type);
+            $type = trim($type);
+            if ($type) {
+                $this->cacheTypeList->cleanType($type);
+            }
         }
-        foreach ($this->cacheFrontendPool as $cacheFrontend) {
-            $cacheFrontend->getBackend()->clean();
+
+        // PERFORMANCE FIX: Removed aggressive full cache backend cleaning
+        // Previously was: foreach ($this->cacheFrontendPool as $cacheFrontend) { $cacheFrontend->getBackend()->clean(); }
+        // This was cleaning ALL cache backends regardless of the specified types
+        // Now relying on Magento's intelligent cache invalidation through cleanType()
+    }
+
+    /**
+     * Flush cache by specific tags
+     * More efficient than flushing entire cache types
+     *
+     * @param array $tags Cache tags to invalidate
+     * @return void
+     */
+    public function flushCacheByTags(array $tags)
+    {
+        if (!$this->getConfigModule('general/enabled')) {
+            return;
         }
+
+        if (empty($tags)) {
+            return;
+        }
+
+        // Clean cache by specific tags - most efficient approach
+        $this->cache->clean($tags);
+    }
+
+    /**
+     * Get cache tags for a specific entity type
+     *
+     * @param string $entityType (product, category, cms_page, cms_block, config)
+     * @param int|null $entityId
+     * @return array
+     */
+    public function getCacheTagsForEntity($entityType, $entityId = null)
+    {
+        $tags = [];
+
+        switch ($entityType) {
+            case 'product':
+                $tags[] = \Magento\Catalog\Model\Product::CACHE_TAG;
+                if ($entityId) {
+                    $tags[] = \Magento\Catalog\Model\Product::CACHE_TAG . '_' . $entityId;
+                }
+                break;
+
+            case 'category':
+                $tags[] = \Magento\Catalog\Model\Category::CACHE_TAG;
+                if ($entityId) {
+                    $tags[] = \Magento\Catalog\Model\Category::CACHE_TAG . '_' . $entityId;
+                }
+                break;
+
+            case 'cms_page':
+                $tags[] = \Magento\Cms\Model\Page::CACHE_TAG;
+                if ($entityId) {
+                    $tags[] = \Magento\Cms\Model\Page::CACHE_TAG . '_' . $entityId;
+                }
+                break;
+
+            case 'cms_block':
+                $tags[] = \Magento\Cms\Model\Block::CACHE_TAG;
+                if ($entityId) {
+                    $tags[] = \Magento\Cms\Model\Block::CACHE_TAG . '_' . $entityId;
+                }
+                break;
+
+            case 'config':
+                $tags[] = \Magento\Framework\App\Config::CACHE_TAG;
+                break;
+        }
+
+        return $tags;
     }
 
 }

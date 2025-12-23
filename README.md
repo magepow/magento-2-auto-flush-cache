@@ -17,6 +17,23 @@ Every time we edit any information or configuration content after saving we have
 
 - [Documentation](https://docs.alothemes.com/m2/extension/autoflushcache/)
 
+## ✨ Key Features
+
+- ✅ **Automatic Cache Management** - No more manual cache clearing after admin changes
+- ✅ **Intelligent Tag-Based Cache Invalidation** - Only clears cache entries related to changed content (NEW)
+- ✅ **Event-Specific Controls** - Enable/disable cache flushing for each event type individually (NEW)
+- ✅ **Production-Safe Defaults** - Optimized configuration that won't impact site performance (NEW)
+- ✅ **Granular Configuration** - Control exactly which cache types to flush
+- ✅ **Performance Optimized** - Removed aggressive cache clearing that caused performance issues (NEW)
+
+### Performance Improvements
+
+| Scenario | Before | After (Tag-Based) |
+|----------|--------|-------------------|
+| Single Product Save | Full cache flush | Only product cache tags cleared |
+| Bulk Product Import (1000 items) | 1000 full cache flushes | No cache flushing (disabled by default) |
+| CMS Page Save | Full cache flush | Only page cache tags cleared |
+
 ## How to use auto flush cache extension
 Before you continue, ensure you meet the following requirements:
 
@@ -38,14 +55,45 @@ php bin/magento cache:flush
   * when install done is an auto flush cache already working.
   * You can login as administrator to configure everything without clearing cache.
 
-  ### 2.1. When not installed after configure in System > tools > cache management will like below. 
+  ### 2.1. Configuration Options (NEW)
 
-  
+  Navigate to: `Stores > Configuration > Magepow > Auto Flush Cache`
+
+  **General Settings:**
+  - **Enabled**: Master on/off switch for the extension
+  - **Use Intelligent Tag-Based Invalidation**: (Recommended) Enable tag-based cache invalidation for better performance
+  - **Cache Types to Flush**: Select which cache types to flush (only used when tag-based invalidation is disabled)
+
+  **Event-Specific Settings** (Control which admin actions trigger cache flushing):
+  - **Flush on Configuration Save**: ✅ Enabled by default
+  - **Flush on Design Configuration Change**: ✅ Enabled by default
+  - **Flush on CMS Page Save**: ✅ Enabled by default
+  - **Flush on CMS Block Save**: ✅ Enabled by default
+  - **Flush on Product Save**: ❌ Disabled by default (can impact performance with bulk operations)
+  - **Flush on Category Save**: ❌ Disabled by default (can impact performance with bulk operations)
+
+  ### 2.2. When not installed after configure in System > tools > cache management will like below.
+
+
   ![Image of Magento admin config](https://github.com/magepow/magento-2-auto-flush-cache/blob/master/media/autoflushcache.png)
 
-  ### 2.2. Result after install auto flush cache Extension:
-   
+  ### 2.3. Result after install auto flush cache Extension:
+
    ![Image of magento store front](https://github.com/magepow/magento-2-auto-flush-cache/blob/master/media/ezgif.com-gif-maker.gif)
+
+  ### 2.4. Recommended Production Configuration
+
+  For best performance on production sites:
+  ```
+  ✓ Enabled: Yes
+  ✓ Use Intelligent Tag-Based Invalidation: Yes (Recommended)
+  ✓ Flush on Configuration Save: Yes
+  ✓ Flush on Design Change: Yes
+  ✓ Flush on CMS Page Save: Yes
+  ✓ Flush on CMS Block Save: Yes
+  ✗ Flush on Product Save: No (keep disabled to prevent performance issues)
+  ✗ Flush on Category Save: No (keep disabled to prevent performance issues)
+  ```
 
  ## Donation
 

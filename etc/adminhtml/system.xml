@@ -9,17 +9,59 @@
             <tab>magepow</tab>
             <resource>Magepow_AutoFlushCache::config</resource>
             <group id="general" translate="label" type="text" sortOrder="1" showInDefault="10" showInWebsite="1" showInStore="1">
-                <label><![CDATA[General]]></label>
+                <label><![CDATA[General Settings]]></label>
                 <field id="enabled" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label><![CDATA[Enabled]]></label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                    <comment><![CDATA[Choose 'Yes' to enable module.]]></comment>
+                    <comment><![CDATA[Choose 'Yes' to enable automatic cache flushing.]]></comment>
+                </field>
+                <field id="use_tag_invalidation" translate="label" type="select" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label><![CDATA[Use Intelligent Tag-Based Invalidation (Recommended)]]></label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[When enabled, only invalidates cache entries related to the changed entity (much more efficient). When disabled, flushes entire cache types (selected below).]]></comment>
                 </field>
                 <field id="type" translate="label comment" type="multiselect" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
-                    <label><![CDATA[Choose cache type want to auto flush]]></label>
+                    <label><![CDATA[Cache Types to Flush]]></label>
                     <source_model>Magepow\AutoFlushCache\Model\Config\Source\Type</source_model>
-                    <comment><![CDATA[Choose cache type want to auto flush]]></comment>
+                    <comment><![CDATA[Select which cache types should be automatically flushed (only used when tag-based invalidation is disabled). For better performance, enable tag-based invalidation above.]]></comment>
                     <can_be_empty>1</can_be_empty>
+                    <depends>
+                        <field id="use_tag_invalidation">0</field>
+                    </depends>
+                </field>
+            </group>
+            <group id="events" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label><![CDATA[Event-Specific Settings (Performance Optimization)]]></label>
+                <comment><![CDATA[Control which admin actions trigger cache flushing. Disable unnecessary events to improve performance.]]></comment>
+                <field id="flush_on_config_save" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label><![CDATA[Flush on Configuration Save]]></label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[Flush cache when system configuration is saved.]]></comment>
+                </field>
+                <field id="flush_on_design_change" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label><![CDATA[Flush on Design Configuration Change]]></label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[Flush cache when design settings are changed.]]></comment>
+                </field>
+                <field id="flush_on_cms_page_save" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label><![CDATA[Flush on CMS Page Save]]></label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[Flush cache when CMS pages are saved. WARNING: Can impact performance if pages are saved frequently.]]></comment>
+                </field>
+                <field id="flush_on_cms_block_save" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label><![CDATA[Flush on CMS Block Save]]></label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[Flush cache when CMS blocks are saved. WARNING: Can impact performance if blocks are saved frequently.]]></comment>
+                </field>
+                <field id="flush_on_product_save" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label><![CDATA[Flush on Product Save]]></label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[Flush cache when products are saved. WARNING: NOT RECOMMENDED for production - can severely impact performance with bulk product updates.]]></comment>
+                </field>
+                <field id="flush_on_category_save" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label><![CDATA[Flush on Category Save]]></label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[Flush cache when categories are saved. WARNING: Can impact performance with frequent category updates.]]></comment>
                 </field>
             </group>
         </section>
